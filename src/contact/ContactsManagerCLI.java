@@ -1,24 +1,37 @@
 package contact;
-
+import java.util.Scanner;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static contact.Contacts.addContact;
+
 public class ContactsManagerCLI {
-    private static List<Contact> contacts;
-    private static File file;
+//    private static List<Contact> contacts;
+//    private static File file;
+
+    public static String showMainMenu() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("1. View contacts.%n2. Add a new contact.%n3. Search a contact by name.%n4. Delete an existing contact.%n5. Exit.%nEnter an option (1, 2, 3, 4 or 5): %n");
+        String showMainMenu = scanner.next();
+        return showMainMenu;
+    };
 
     public static void main(String[] args) {
-        contacts = new ArrayList<>();
-        file = new File("contacts.txt");
+        Scanner scanner = new Scanner(System.in);
 
-        loadContacts();
+//        contacts = new ArrayList<>();
+//        file = new File("contacts.txt");
 
-        int choice;
+        Path viewContacts = Paths.get("./src/data/contacts");
+
+        String choice;
         do {
             choice = showMainMenu();
             switch (choice) {
                 case 1:
-                    viewContacts();
+                    System.out.println(viewContacts);
                     break;
                 case 2:
                     addContact();
@@ -34,7 +47,7 @@ public class ContactsManagerCLI {
                 default:
                     System.out.println("Invalid input. Please try again.");
             }
-        } while (choice != 5);
+        } while (choice != "5");
 
         saveContacts();
     }
