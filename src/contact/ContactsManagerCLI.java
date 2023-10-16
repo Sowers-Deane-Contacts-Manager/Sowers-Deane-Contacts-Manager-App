@@ -21,22 +21,31 @@ public class ContactsManagerCLI {
         return showMainMenu;
     };
 
+    public static String viewContacts() throws IOException {
+        Path contactsPath = Paths.get("src/data", "contacts.txt");
+        List<String> contactsList = Files.readAllLines(contactsPath);
+        for (int i =0; i < contactsList.size(); i += 1) {
+            System.out.println((i + 1) + ": " + contactsList.get(i));
+        }
+        return "";
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
 //        contacts = new ArrayList<>();
 //        file = new File("contacts.txt");
 
-        Path contactsPath = Paths.get("data", "contacts.txt");
-        List<String>contactPath = Files.readAllLines(contactsPath);
-//        Path contactsFile = Paths.get("./data/contacts", "contacts.txt");
+        Path contactsFile = Paths.get("./data/contacts", "contacts.txt");
+
+
 
         int choice;
         do {
             choice = showMainMenu();
             switch (choice) {
                 case 1:
-                    System.out.println(viewContacts);
+                    System.out.println(viewContacts());
                     break;
                 case 2:
                     try {

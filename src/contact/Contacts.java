@@ -56,9 +56,9 @@ public class Contacts {
     public static String addContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please provide First and Last name and 7 digit phone number \"xxx-xxxx\": ");
-        String addContact = scanner.next();
+        String addContact = scanner.nextLine();
         Files.write(
-                Paths.get("data", "contacts.txt"),
+                Paths.get("src/data", "contacts.txt"),
                 Collections.singletonList(addContact),
                 StandardOpenOption.APPEND
         );
