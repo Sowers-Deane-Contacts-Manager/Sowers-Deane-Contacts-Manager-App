@@ -1,5 +1,10 @@
 package contact;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.sql.SQLOutput;
 
@@ -48,14 +53,17 @@ public class Contacts {
 //        String showMainMenu = scanner.next();
 //    };
 
-    public static String addContact() {
+    public static String addContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Please provide \"First Last\" name and 7 digit phone number \"xxx-xxxx\": ");
+        System.out.print("Please provide First and Last name and 7 digit phone number \"xxx-xxxx\": ");
         String addContact = scanner.next();
-        Files.write (
+        Files.write(
                 Paths.get("data", "contacts.txt"),
-                Arrays.asList(addContact),
+                Collections.singletonList(addContact),
                 StandardOpenOption.APPEND
         );
+
+        return addContact;
     }
 }
+

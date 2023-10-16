@@ -1,4 +1,7 @@
 package contact;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.nio.file.Path;
@@ -11,22 +14,24 @@ public class ContactsManagerCLI {
 //    private static List<Contact> contacts;
 //    private static File file;
 
-    public static String showMainMenu() {
+    public static int showMainMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.printf("1. View contacts.%n2. Add a new contact.%n3. Search a contact by name.%n4. Delete an existing contact.%n5. Exit.%nEnter an option (1, 2, 3, 4 or 5): %n");
-        String showMainMenu = scanner.next();
+        int showMainMenu = scanner.nextInt();
         return showMainMenu;
     };
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
 //        contacts = new ArrayList<>();
 //        file = new File("contacts.txt");
 
-        Path viewContacts = Paths.get("./src/data/contacts");
+        Path contactsPath = Paths.get("data", "contacts.txt");
+        List<String>contactPath = Files.readAllLines(contactsPath);
+//        Path contactsFile = Paths.get("./data/contacts", "contacts.txt");
 
-        String choice;
+        int choice;
         do {
             choice = showMainMenu();
             switch (choice) {
@@ -34,7 +39,11 @@ public class ContactsManagerCLI {
                     System.out.println(viewContacts);
                     break;
                 case 2:
-                    addContact();
+                    try {
+                        addContact();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 3:
                     searchContact();
@@ -47,8 +56,20 @@ public class ContactsManagerCLI {
                 default:
                     System.out.println("Invalid input. Please try again.");
             }
-        } while (choice != "5");
+        } while (choice != 5);
 
         saveContacts();
+    }
+
+    private static void searchContact() {
+
+    }
+
+    private static void deleteContact() {
+
+    }
+
+    private static void saveContacts() {
+
     }
 }
