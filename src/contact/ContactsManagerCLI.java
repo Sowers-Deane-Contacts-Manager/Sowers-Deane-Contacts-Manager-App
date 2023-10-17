@@ -19,23 +19,12 @@ public class ContactsManagerCLI {
             int choice = displayMainMenu();
 
             switch (choice) {
-                case 1:
-                    viewContacts();
-                    break;
-                case 2:
-                    addContact();
-                    break;
-                case 3:
-                    searchContacts();
-                    break;
-                case 4:
-                    deleteContact();
-                    break;
-                case 5:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+                case 1 -> viewContacts();
+                case 2 -> addContact();
+                case 3 -> searchContacts();
+                case 4 -> deleteContact();
+                case 5 -> exit = true;
+                default -> System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
         }
 
@@ -94,9 +83,9 @@ public class ContactsManagerCLI {
         System.out.print("Enter the name: ");
         String name = scanner.nextLine();
 
-
-        if (isDuplicateName(name)) {
-            System.out.print("There's already a contact with the same name. Do you want to overwrite it? (Yes/No): ");
+        boolean saveName = isDuplicateName(name);
+        if (saveName) {
+            System.out.println("There's already a contact with the same name. Do you want to overwrite it? (Yes/No): ");
             String choice = scanner.nextLine();
 
             if (choice.equalsIgnoreCase("No")) {
@@ -179,9 +168,11 @@ public class ContactsManagerCLI {
     }
 
     private static boolean isDuplicateName(String name) {
-        for (Contact contact : contacts)
-            if (contact.getName().equalsIgnoreCase(name)) return true;
-
+        for (Contact contact : contacts) {
+            if (contact.getName().contains(name)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -189,7 +180,7 @@ public class ContactsManagerCLI {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (contact.getName().equalsIgnoreCase(name)) {
+            if (contact.getName().contains(name)) {
                 iterator.remove();
                 break;
             }
