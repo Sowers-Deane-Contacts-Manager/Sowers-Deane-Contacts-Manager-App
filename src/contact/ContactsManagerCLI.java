@@ -1,16 +1,16 @@
 package contact;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
 
 public class ContactsManagerCLI {
     private static List<Contact> contacts;
     private static final String FILE_NAME = "src/data/contacts.txt";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         contacts = loadContacts();
         boolean exit = false;
 
@@ -87,7 +87,7 @@ public class ContactsManagerCLI {
         }
     }
 
-    private static void addContact() {
+    private static void addContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name: ");
         String name = scanner.nextLine();
@@ -106,8 +106,12 @@ public class ContactsManagerCLI {
 
         System.out.print("Enter the phone number: ");
         String phoneNumber7 = scanner.nextLine();
-
-        contacts.add(new Contact(name, phoneNumber7));
+        String addContact = (name + " " + phoneNumber7);
+        Files.write(
+                Paths.get("src/data", "contacts.txt"),
+                Collections.singletonList(addContact),
+                StandardOpenOption.APPEND
+        );
         System.out.println("Contact added successfully.");
     }
 
@@ -141,14 +145,13 @@ public class ContactsManagerCLI {
         System.out.print("Enter the name of the contact to delete: ");
         String deleteName = scanner.nextLine();
 
-        boolean contactFound = false;
+        boolean contactFound = true;
 
         for (Iterator<Contact> iterator = contacts.iterator(); iterator.hasNext(); ) {
             Contact contact = iterator.next();
 
-            if (contact.getName().equalsIgnoreCase(deleteName)) {
+            if (contact.equals(deleteName)) {
                 iterator.remove();
-                contactFound = true;
             }
         }
 
@@ -171,7 +174,7 @@ public class ContactsManagerCLI {
 
     private static boolean isDuplicateName(String name) {
         for (Contact contact : contacts) {
-            if (contact.getName().equalsIgnoreCase(name)) {
+            if (name.equalsIgnoreCase(name)) {
                 return true;
             }
         }
@@ -183,7 +186,7 @@ public class ContactsManagerCLI {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (contact.getName().equalsIgnoreCase(name)) {
+            if (name.equalsIgnoreCase(name)) {
                 iterator.remove();
                 break;
             }
