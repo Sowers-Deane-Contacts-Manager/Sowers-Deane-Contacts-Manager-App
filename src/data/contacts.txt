@@ -1,6 +1,4 @@
-Wesley Snipes  111-1111
-Oprah Winfrey  222-2222
-Johnny Depp  333-3333
-
-Kyle Sowers 255-0552
-Kyle Sowers 255-0552
+Wesley Snipes  111-1111 | Wesley Snipes  111-1111
+Oprah Winfrey  222-2222 | Oprah Winfrey  222-2222
+Abraham Lincoln 333-3333 | Abraham Lincoln 333-3333
+Drew Carey 444-4444 | Drew Carey 444-4444

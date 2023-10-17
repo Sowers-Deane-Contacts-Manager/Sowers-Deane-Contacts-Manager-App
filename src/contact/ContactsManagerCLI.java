@@ -2,6 +2,7 @@ package contact;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
@@ -93,11 +94,16 @@ public class ContactsManagerCLI {
                 return;
             }
 
-            deleteContactByName(name);
+            if (choice.equalsIgnoreCase("yes")) {
+                System.out.println("Contact will now be overwritten.");
+            }
+            deleteContact(name);
         }
+
 
         System.out.print("Enter the phone number: ");
         String phoneNumber7 = scanner.nextLine();
+        phoneNumber7 = formatPhoneNumber(phoneNumber7);
         String addContact = (name + " " + phoneNumber7);
         Files.write(
                 Paths.get("src/data", "contacts.txt"),
@@ -110,51 +116,55 @@ public class ContactsManagerCLI {
 
 
 
-    private static void searchContacts() {
+    private static void searchContacts() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name to search: ");
         String searchName = scanner.nextLine();
-        List<Contact> searchResults = new ArrayList<>();
 
-        for (Contact contact : contacts) {
-            if (contact.getName().equalsIgnoreCase(searchName)) {
-                searchResults.add(contact);
-            }
-        }
 
-        if (searchResults.isEmpty()) {
-            System.out.println("No contacts found with the given name.");
-        } else {
-            System.out.println("Search Results:");
-            System.out.println("Name           | Phone number");
-            System.out.println("-----------------------------");
+        Path filePath = Paths.get(FILE_NAME);
+        List<String> fileInfo = Files.readAllLines(filePath);
 
-            for (Contact contact : searchResults) {
-                System.out.printf("%-15s | %s%n", contact.getName(), contact.getPhoneNumber7());
+        for (int i = 0; i < fileInfo.size(); i++) {
+            if (fileInfo.get(i).contains(searchName)) {
+                System.out.println(fileInfo.get(i));
+                break;
             }
         }
     }
 
-    private static void deleteContact() {
+    private static void deleteContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name of the contact to delete: ");
         String deleteName = scanner.nextLine();
 
-        boolean contactFound = true;
+        Path filePath = Paths.get(FILE_NAME);
+        List<String> fileInfo = Files.readAllLines(filePath);
 
-        for (Iterator<Contact> iterator = contacts.iterator(); iterator.hasNext(); ) {
-            Contact contact = iterator.next();
-
-            if (contact.equals(deleteName)) {
-                iterator.remove();
+        for(int i = 0; i < fileInfo.size(); i++) {
+            if (fileInfo.get(i).contains(deleteName)) {
+                fileInfo.remove(fileInfo.get(i));
             }
         }
+        Files.write(
+                Paths.get("src/data", "contacts.txt"),
+                fileInfo
+        );
+    }
 
-        if (!contactFound) {
-            System.out.println("No contact found with the given name.");
-        } else {
-            System.out.println("Contact deleted successfully.");
+    private static void deleteContact(String name) throws IOException {
+        Path filePath = Paths.get(FILE_NAME);
+        List<String> fileInfo = Files.readAllLines(filePath);
+
+        for(int i = 0; i < fileInfo.size(); i++) {
+            if (fileInfo.get(i).contains(name)) {
+                fileInfo.remove(fileInfo.get(i));
+            }
         }
+        Files.write(
+                Paths.get("src/data", "contacts.txt"),
+                fileInfo
+        );
     }
 
     private static void saveContacts() {
@@ -176,14 +186,13 @@ public class ContactsManagerCLI {
         return false;
     }
 
-    private static void deleteContactByName(String name) {
-        Iterator<Contact> iterator = contacts.iterator();
-        while (iterator.hasNext()) {
-            Contact contact = iterator.next();
-            if (contact.getName().contains(name)) {
-                iterator.remove();
-                break;
-            }
+    private static String formatPhoneNumber(String phoneNumber7) {
+        String justNumbers = phoneNumber7.replaceAll("[^0-9]", "");
+
+        if (justNumbers.length() == 7) {
+            return justNumbers.replaceFirst("(\\d{3})(\\d{4})", "$1-$2");
+        } else {
+            return phoneNumber7;
         }
     }
 }
