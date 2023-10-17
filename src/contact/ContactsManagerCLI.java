@@ -11,10 +11,11 @@ public class ContactsManagerCLI {
     private static final String FILE_NAME = "src/data/contacts.txt";
 
     public static void main(String[] args) throws IOException {
-        contacts = loadContacts();
-        boolean exit = false;
 
+        boolean exit = false;
         while (!exit) {
+        contacts = loadContacts();
+
             int choice = displayMainMenu();
 
             switch (choice) {
@@ -77,6 +78,7 @@ public class ContactsManagerCLI {
     }
 
     private static void viewContacts() {
+        loadContacts();
         System.out.println("Contacts:");
         System.out.println("Name           | Phone number");
         System.out.println("-----------------------------");
@@ -91,6 +93,7 @@ public class ContactsManagerCLI {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name: ");
         String name = scanner.nextLine();
+
 
         if (isDuplicateName(name)) {
             System.out.print("There's already a contact with the same name. Do you want to overwrite it? (Yes/No): ");
@@ -113,7 +116,10 @@ public class ContactsManagerCLI {
                 StandardOpenOption.APPEND
         );
         System.out.println("Contact added successfully.");
+        loadContacts();
     }
+
+
 
     private static void searchContacts() {
         Scanner scanner = new Scanner(System.in);
@@ -173,11 +179,8 @@ public class ContactsManagerCLI {
     }
 
     private static boolean isDuplicateName(String name) {
-        for (Contact contact : contacts) {
-            if (name.equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
+        for (Contact contact : contacts)
+            if (contact.getName().equalsIgnoreCase(name)) return true;
 
         return false;
     }
@@ -186,7 +189,7 @@ public class ContactsManagerCLI {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (name.equalsIgnoreCase(name)) {
+            if (contact.getName().equalsIgnoreCase(name)) {
                 iterator.remove();
                 break;
             }
