@@ -1,18 +1,14 @@
 package contact;
+
 import java.io.*;
-import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
-import static contact.Contacts.addContact;
 
 public class ContactsManagerCLI {
     private static List<Contact> contacts;
-    private static final String FILE_NAME = "contacts.txt";
+    private static final String FILE_NAME = "src/data/contacts.txt";
 
     public static void main(String[] args) {
         contacts = loadContacts();
@@ -49,17 +45,19 @@ public class ContactsManagerCLI {
     private static List<Contact> loadContacts() {
         List<Contact> contactList = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new File(String.valueOf(contacts)))) {
+        try {
+            File file = new File(FILE_NAME);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] parts = line.split(" \\| ");
-                String name = parts[0];
-                String phoneNumber = parts[1];
-
-                contacts.add(new Contact(name, phoneNumber));
+                String[] parts = line.split("\\|");
+                String name = parts[0].trim();
+                String phoneNumber = parts[1].trim();
+                contactList.add(new Contact(name, phoneNumber));
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("No contacts file found.");
+            System.out.println("No contacts file found. Starting with an empty contact list.");
         }
 
         return contactList;
