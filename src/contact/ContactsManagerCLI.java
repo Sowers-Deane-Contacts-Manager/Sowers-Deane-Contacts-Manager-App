@@ -52,7 +52,7 @@ public class ContactsManagerCLI {
                 String line = scanner.nextLine();
                 String[] parts = line.split("\\|");
                 String name = parts[0].trim();
-                String phoneNumber = parts[1].trim();
+                String phoneNumber = parts[0].trim();
                 contactList.add(new Contact(name, phoneNumber));
             }
             scanner.close();
@@ -82,7 +82,8 @@ public class ContactsManagerCLI {
         System.out.println("-----------------------------");
 
         for (Contact contact : contacts) {
-            System.out.printf("%-15s | %s%n", contact.getName(), contact.getPhoneNumber7());
+            System.out.printf("%-15s%n", contact.getName(), contact.getPhoneNumber7());
+
         }
     }
 

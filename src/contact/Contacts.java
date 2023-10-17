@@ -53,17 +53,17 @@ public class Contacts {
 //        String showMainMenu = scanner.next();
 //    };
 
-    public static String addContact() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please provide First and Last name and 7 digit phone number \"xxx-xxxx\": ");
-        String addContact = scanner.nextLine();
-        Files.write(
-                Paths.get("src/data", "contacts.txt"),
-                Collections.singletonList(addContact),
-                StandardOpenOption.APPEND
-        );
-
-        return addContact;
-    }
+//    public static String addContact() throws IOException {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Please provide First and Last name and 7 digit phone number \"xxx-xxxx\": ");
+//        String addContact = scanner.nextLine();
+//        Files.write(
+//                Paths.get("src/data", "contacts.txt"),
+//                Collections.singletonList(addContact),
+//                StandardOpenOption.APPEND
+//        );
+//
+//        return addContact;
+//    }
 }
 
