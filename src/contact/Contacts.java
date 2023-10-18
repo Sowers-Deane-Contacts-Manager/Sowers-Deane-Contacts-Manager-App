@@ -12,28 +12,26 @@ public class Contacts {
 
     private String phoneNumber7;
 
-    private String phoneNumber10;
 
 
-    public void contact(String name, String phoneNumber7, String phoneNumber10) {
-        this.name = name;
-        this.phoneNumber7 = phoneNumber7 ;
-        this.phoneNumber10 = phoneNumber10;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public String getPhoneNumber7() {
-        return phoneNumber7;
-    }
-    public String getPhoneNumber10() {
-        return getPhoneNumber10();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//
+//    public void contact(String name, String phoneNumber7) {
+//        this.name = name;
+//        this.phoneNumber7 = phoneNumber7 ;
+//
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//    public String getPhoneNumber7() {
+//        return phoneNumber7;
+//    }
+//
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
     public String toString() {
         return name + (" | " + phoneNumber7 + " |");
     }

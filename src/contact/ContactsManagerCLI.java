@@ -53,7 +53,7 @@ public class ContactsManagerCLI {
 
         return contactList;
     }
-
+//print main menu
     private static int displayMainMenu() {
         System.out.println("Main Menu:");
         System.out.println("1. View contacts");
@@ -66,7 +66,7 @@ public class ContactsManagerCLI {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
-
+//1. view contacts
     private static void viewContacts() {
         loadContacts();
         System.out.println("Contacts:");
@@ -78,12 +78,13 @@ public class ContactsManagerCLI {
 
         }
     }
-
+//2.add contacts
     private static void addContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name: ");
         String name = scanner.nextLine();
 
+//bonus checks for duplicate names and asks if you want to overwrite
         boolean saveName = isDuplicateName(name);
         if (saveName) {
             System.out.println("There's already a contact with the same name. Do you want to overwrite it? (Yes/No): ");
@@ -102,9 +103,9 @@ public class ContactsManagerCLI {
 
 
         System.out.print("Enter the phone number: ");
-        String phoneNumber7 = scanner.nextLine();
-        phoneNumber7 = formatPhoneNumber(phoneNumber7);
-        String addContact = (name + " " + phoneNumber7);
+        String phoneNumber = scanner.nextLine();
+        phoneNumber = formatPhoneNumber(phoneNumber);
+        String addContact = (name + " " + phoneNumber);
         Files.write(
                 Paths.get("src/data", "contacts.txt"),
                 Collections.singletonList(addContact),
@@ -115,7 +116,7 @@ public class ContactsManagerCLI {
     }
 
 
-
+//3. search contacts
     private static void searchContacts() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name to search: ");
@@ -132,7 +133,7 @@ public class ContactsManagerCLI {
             }
         }
     }
-
+//4. delete contacts with IOExeption
     private static void deleteContact() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the name of the contact to delete: ");
@@ -152,6 +153,7 @@ public class ContactsManagerCLI {
         );
     }
 
+//    from isDuplicateName allows user to delete a contact by name if users want to
     private static void deleteContact(String name) throws IOException {
         Path filePath = Paths.get(FILE_NAME);
         List<String> fileInfo = Files.readAllLines(filePath);
@@ -166,7 +168,7 @@ public class ContactsManagerCLI {
                 fileInfo
         );
     }
-
+//saves new contacts to file
     private static void saveContacts() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) {
             for (Contact contact : contacts) {
@@ -185,14 +187,18 @@ public class ContactsManagerCLI {
         }
         return false;
     }
+//bonus format 7 and 10 digit phone numbers with a dash
+private static String formatPhoneNumber(String phoneNumber) {
+    String justNumbers = phoneNumber.replaceAll("[^0-9]", "");
 
-    private static String formatPhoneNumber(String phoneNumber7) {
-        String justNumbers = phoneNumber7.replaceAll("[^0-9]", "");
-
+    if (justNumbers.length() == 7 || justNumbers.length() == 10) {
         if (justNumbers.length() == 7) {
             return justNumbers.replaceFirst("(\\d{3})(\\d{4})", "$1-$2");
         } else {
-            return phoneNumber7;
+            return justNumbers.replaceFirst("(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3");
         }
+    } else {
+        return phoneNumber;
     }
+}
 }
