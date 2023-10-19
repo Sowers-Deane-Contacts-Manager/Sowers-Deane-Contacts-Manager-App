@@ -126,11 +126,16 @@ public class ContactsManagerCLI {
         Path filePath = Paths.get(FILE_NAME);
         List<String> fileInfo = Files.readAllLines(filePath);
 
+        boolean found = false;
         for (int i = 0; i < fileInfo.size(); i++) {
             if (fileInfo.get(i).contains(searchName)) {
                 System.out.println(fileInfo.get(i));
+                found = true;
                 break;
             }
+        }
+        if (!found) {
+            System.out.println("Not Found");
         }
     }
 //4. delete contacts with IOExeption
