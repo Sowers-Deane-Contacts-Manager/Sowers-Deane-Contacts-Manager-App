@@ -1,7 +1,4 @@
-Wesley Snipes  111-1111
-Oprah Winfrey  222-2222
-Abraham Lincoln 333-3333
-Drew Carey 444-4444
-Snow White 555-555-5555
-Michael Jordam 300-3000
-Mikey Mouse 000-0000
+Wesley Snipes  111-1111 | Wesley Snipes  111-1111
+Oprah Winfrey  222-2222 | Oprah Winfrey  222-2222
+Abraham Lincoln 333-3333 | Abraham Lincoln 333-3333
+Snow White 555-555-5555 | Snow White 555-555-5555

@@ -147,10 +147,16 @@ public class ContactsManagerCLI {
         Path filePath = Paths.get(FILE_NAME);
         List<String> fileInfo = Files.readAllLines(filePath);
 
+        boolean found = false;
         for(int i = 0; i < fileInfo.size(); i++) {
             if (fileInfo.get(i).contains(deleteName)) {
                 fileInfo.remove(fileInfo.get(i));
+                System.out.println("Contact " + deleteName + " deleted.");
+                found = true;
             }
+        }
+        if (!found) {
+            System.out.println("Contact not found");
         }
         Files.write(
                 Paths.get("src/data", "contacts.txt"),
